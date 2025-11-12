@@ -1,0 +1,36 @@
+@import "../../styles/variables.css";
+
+.card {
+  background-color: var(--background-secondary-color);
+  margin: 0 2rem;
+  border-radius: 8px;
+  padding: 1rem;
+}
+.card:nth-child(even) {
+  margin: 1.5rem 2rem;
+}
+.cardName {
+  color: #ffffff;
+}
+.listContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  text-decoration: none;
+  font-size: 1rem;
+}
+.listItem {
+  display: flex;
+  flex-direction: row;
+}
+.textLabel {
+  color: var(--text-accent-color);
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+.text {
+  color: #ffffff;
+}
+.link {
+  color: var(--text-accent-color);
+}

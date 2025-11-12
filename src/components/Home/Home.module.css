@@ -1,0 +1,6 @@
+@import "../../styles/variables.css";
+
+.container {
+  background-color: var(--background-primary-color);
+  padding: 2rem 0;
+}
