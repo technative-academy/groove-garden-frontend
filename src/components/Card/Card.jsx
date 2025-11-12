@@ -20,7 +20,7 @@ function Card({ song }) {
           </li>
           <li className={style.listItem}>
             <p className={style.text}>
-              <span className={style.textLabel}>Ablum: </span> {song.album_name}
+              <span className={style.textLabel}>Album: </span> {song.album_name}
             </p>
           </li>
           <li className={style.listItem}>
