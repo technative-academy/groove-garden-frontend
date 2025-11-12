@@ -67,6 +67,18 @@ function Header() {
                 Artists
               </NavLink>
             </li>
+            <li className={style.item}>
+              <NavLink
+                className={`${style.itemText} ${
+                  location.pathname === "/upload-song"
+                    ? style.itemTextActive
+                    : ""
+                }`}
+                to="/upload-song"
+              >
+                Upload Song
+              </NavLink>
+            </li>
           </ul>
         </div>
       </div>
