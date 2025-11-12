@@ -1,0 +1,37 @@
+@import "../../styles/variables.css";
+
+.container {
+  background-color: var(--background-primary-color);
+}
+
+.heading {
+  font-size: 2rem;
+  margin: 0 1rem;
+  padding: 1rem 0 0 0;
+}
+.form {
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  /* gap: 0.5rem; */
+}
+.label {
+  color: var(--text-accent-color);
+  padding: 0 0 0.5rem 0;
+  font-weight: bold;
+}
+.input {
+  margin: 0 0 0.5rem 0;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 6px;
+}
+.input:focus {
+  outline: 2px solid var(--text-accent-color);
+}
+.button {
+  margin: 1rem 0;
+  background-color: var(--background-secondary-color);
+  color: var(--text-accent-color);
+  font-weight: bold;
+}
