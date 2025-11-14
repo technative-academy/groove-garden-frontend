@@ -2,6 +2,7 @@ import App from "./App";
 import Home from "./components/Home/Home";
 import MyCollections from "./components/MyCollections/MyCollections";
 import UploadSong from "./components/UploadSong/UploadSong";
+import Register from "./components/Register/Register";
 
 const routes = [
   {
@@ -19,6 +20,10 @@ const routes = [
       {
         path: "/upload-song",
         element: <UploadSong />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
       },
     ],
   },
