@@ -6,11 +6,6 @@ import authService from "../components/services/authService";
 const initialState = {
   status: "idle",
   error: null,
-  registerData: {
-    username: "",
-    email: "",
-    password: "",
-  },
 };
 
 export const registerSlice = createSlice({
@@ -35,30 +30,9 @@ export const registerSlice = createSlice({
 export const registerUser = createAsyncThunk(
   "register/registerUser",
   async ({ username, email, password }) => {
-    console.log(username);
-    console.log(email);
-    console.log(password);
     const userRegister = await authService.register(username, email, password);
     return userRegister;
   }
 );
-
-// export const registerUser = createAsyncThunk(
-//   "register/registerUser",
-//   async (value) => {
-//     fetch(`${SERVER_URL}/api/auth/register`, {
-//       method: "POST",
-//       headers: {
-//         Accept: "application/json",
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({
-//         username: value.username,
-//         email: value.email,
-//         password: value.password,
-//       }),
-//     }).then((res) => res.json);
-//   }
-// );
 
 export default registerSlice.reducer;

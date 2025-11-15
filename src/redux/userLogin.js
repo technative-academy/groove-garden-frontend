@@ -8,10 +8,6 @@ const initialState = {
   user: null,
   status: "idle",
   error: null,
-  userLogin: {
-    email: "",
-    password: "",
-  },
 };
 
 export const postUserLogin = createAsyncThunk(
