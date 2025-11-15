@@ -5,7 +5,7 @@ const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 const initialState = {
   status: "idle",
   error: null,
-  allSongsData: [],
+  allSongs: [],
 };
 
 export const allSongsSlice = createSlice({
