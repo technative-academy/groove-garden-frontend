@@ -2,11 +2,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import authService from "../components/services/authService";
 
-const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-
 const initialState = {
   active: false,
-  loggin: false,
+  isLoggedIn: false,
   user: null,
   status: "idle",
   error: null,
@@ -15,6 +13,18 @@ const initialState = {
     password: "",
   },
 };
+
+export const postUserLogin = createAsyncThunk(
+  "auth/login",
+  async ({ email, password }) => {
+    const { user, token } = await authService.login(email, password);
+    return { user: user, token: token };
+  }
+);
+
+export const logout = createAsyncThunk("auth/logout", async () => {
+  await authService.logout();
+});
 
 export const userLoginSlice = createSlice({
   name: "userLogin",
@@ -40,39 +50,5 @@ export const userLoginSlice = createSlice({
     });
   },
 });
-
-export const postUserLogin = createAsyncThunk(
-  "auth/login",
-  async ({ email, password }) => {
-    const user = await authService.login(email, password);
-    return user;
-  }
-);
-
-export const logout = createAsyncThunk("auth/logout", async () => {
-  await authService.logout();
-});
-
-// export const postUserLogin = createAsyncThunk(
-//   "userLogin/postUserLogin",
-//   async (value) => {
-//     // console.log("Inside LOGIN POST API");
-//     // console.log(value);
-//     const res = await fetch(`${SERVER_URL}/api/auth/login`, {
-//       method: "POST",
-//       headers: {
-//         Accept: "application.json",
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({ email: value.email, password: value.password }),
-//     });
-//     const data = await res.json();
-
-//     if (data.accessToken) {
-//       sessionStorage.setItem("accessToken", data.accessToken);
-//     }
-//     return { id: data.id, accessToken: data.accessToken };
-// }
-// );
 
 export default userLoginSlice.reducer;

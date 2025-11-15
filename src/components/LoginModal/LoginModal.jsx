@@ -23,7 +23,7 @@ function LoginModal() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (inputValue.email.length && inputValue.password.length > 3) {
+    if (inputValue.email.length > 0 && inputValue.password.length > 3) {
       const result = await dispatch(postUserLogin(inputValue));
       if (result.meta.requestStatus === "fulfilled") {
         dispatch(toggleActive());
