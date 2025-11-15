@@ -2,18 +2,12 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import authService from "../components/services/authService";
 
-const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-
 const initialState = {
   active: false,
   loggin: false,
   user: null,
   status: "idle",
   error: null,
-  userLogin: {
-    email: "",
-    password: "",
-  },
 };
 
 export const userLoginSlice = createSlice({
