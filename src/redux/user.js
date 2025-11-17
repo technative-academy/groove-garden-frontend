@@ -10,7 +10,7 @@ const initialState = {
   error: null,
 };
 
-export const postUserLogin = createAsyncThunk(
+export const login = createAsyncThunk(
   "auth/login",
   async ({ email, password }) => {
     const { user, token } = await authService.login(email, password);
@@ -22,20 +22,20 @@ export const logout = createAsyncThunk("auth/logout", async () => {
   await authService.logout();
 });
 
-export const userLoginSlice = createSlice({
-  name: "userLogin",
+export const user = createSlice({
+  name: "user",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(postUserLogin.pending, (state) => {
+    builder.addCase(login.pending, (state) => {
       state.status = "loading";
     });
-    builder.addCase(postUserLogin.fulfilled, (state, action) => {
+    builder.addCase(login.fulfilled, (state, action) => {
       state.status = "succeeded";
       state.isLoggedIn = true;
       state.user = action.payload.user;
     });
-    builder.addCase(postUserLogin.rejected, (state, action) => {
+    builder.addCase(login.rejected, (state, action) => {
       state.status = "failed";
       state.error = action.error.message;
     });
@@ -47,4 +47,4 @@ export const userLoginSlice = createSlice({
   },
 });
 
-export default userLoginSlice.reducer;
+export default user.reducer;

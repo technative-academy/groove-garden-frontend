@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { toggleActive } from "../../redux/loginState";
-import { postUserLogin } from "../../redux/userLogin";
+import { login } from "../../redux/user";
 
 import closeButton from "../../assets/icons/close.svg";
 import { NavLink } from "react-router";
@@ -24,7 +24,7 @@ function LoginModal() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (inputValue.email.length > 0 && inputValue.password.length > 3) {
-      const result = await dispatch(postUserLogin(inputValue));
+      const result = await dispatch(login(inputValue));
       if (result.meta.requestStatus === "fulfilled") {
         dispatch(toggleActive());
       }

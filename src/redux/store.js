@@ -3,7 +3,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import allSongsReducer from "./allSongs";
 import loginReducer from "./loginState";
 import registerReducer from "./userRegister";
-import userLoginReducer from "./userLogin";
+import userLoginReducer from "./user";
 
 export const store = configureStore({
   reducer: {
