@@ -1,15 +1,25 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { loadState, saveState } from "./localStorage";
 
 import allSongsReducer from "./allSongs";
-import loginReducer from "./loginState";
-import registerReducer from "./userRegister";
-import userLoginReducer from "./user";
+import uiStateReducer from "./uiState";
+import userReducer from "./user";
+import playlistReducer from "./playlist";
+
+const persistedState = loadState();
 
 export const store = configureStore({
   reducer: {
     allSongs: allSongsReducer,
-    login: loginReducer,
-    register: registerReducer,
-    userLogin: userLoginReducer,
+    ui: uiStateReducer,
+    user: userReducer,
+    playlist: playlistReducer,
   },
+  preloadedState: persistedState,
+});
+
+store.subscribe(() => {
+  saveState({
+    user: store.getState().user,
+  });
 });

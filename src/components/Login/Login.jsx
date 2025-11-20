@@ -1,4 +1,4 @@
-import style from "./LoginModal.module.css";
+import style from "./Login.module.css";
 
 import React, { useState } from "react";
 import { NavLink } from "react-router";

@@ -1,8 +1,11 @@
 import style from "./UploadSong.module.css";
 
 import React from "react";
+import { useSelector } from "react-redux";
 
 function UploadSong() {
+  // const userId = useSelector((state) => state.user.user.id);
+  // console.log(userId);
   return (
     <section className={style.container}>
       <h1 className={style.heading}>Upload Song</h1>

@@ -9,113 +9,88 @@ import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { toggleActive } from "../../redux/loginState";
+import { loginToggleActive } from "../../redux/uiState";
 import authService from "../services/authService";
-
 import LoginModal from "../LoginModal/LoginModal";
 
 function Header() {
-  let location = useLocation();
+  const location = useLocation();
   const dispatch = useDispatch();
-  const isActive = useSelector((state) => state.login.active);
-  const loggedIn = authService.isLoggedIn();
+
+  // const isLoginModalOpen = useSelector((state) => state.login.active);
+
+  const isLoginModalOpen = useSelector((state) => state.ui.loginActive);
+  // console.log(isLoginModalOpen);
+
+  const isLoggedIn = authService.isLoggedIn();
+
+  const navItem = (path, label) => (
+    <li className={style.item}>
+      <NavLink
+        to={path}
+        className={`${style.itemText} ${
+          location.pathname === path ? style.itemTextActive : ""
+        }`}
+      >
+        {label}
+      </NavLink>
+    </li>
+  );
+
+  const AuthButtons = () =>
+    isLoggedIn ? (
+      <div className={style.profile}>
+        <img
+          className={style.profile__picture}
+          src={profile_icon}
+          alt="Profile"
+        />
+        <p className={style.profile__name}>Profile</p>
+        <img
+          className={style.profile__dropdown}
+          src={down_arrow}
+          alt="dropdown"
+        />
+      </div>
+    ) : (
+      <>
+        <NavLink className={style.register} to="/register">
+          <button>Register</button>
+        </NavLink>
+
+        <button
+          onClick={() => dispatch(loginToggleActive())}
+          className={style.login}
+        >
+          Login
+        </button>
+      </>
+    );
+
   return (
     <>
-      {isActive && <LoginModal />}
+      {isLoginModalOpen && <LoginModal />}
+
       <div className={style.container}>
         <div className={style.topWrapper}>
           <div className={style.logo}>
             <img className={style.logo__image} src={logo} alt="Company" />
           </div>
-          {loggedIn === true ? (
-            <>
-              <div className={style.profile}>
-                <img
-                  className={style.profile__picture}
-                  src={profile_icon}
-                  alt="Profile"
-                />
-                <p className={style.profile__name}>Profile</p>
-                <img
-                  className={style.profile__dropdown}
-                  src={down_arrow}
-                  alt="dropdown"
-                />
-              </div>
-            </>
-          ) : (
-            <>
-              <NavLink className={style.register} to="/register">
-                <button>Register</button>
-              </NavLink>
-              <button
-                onClick={() => {
-                  dispatch(toggleActive());
-                }}
-                className={style.login}
-              >
-                Login In
-              </button>
-            </>
-          )}
+
+          <AuthButtons />
         </div>
+
         <div className={style.subheader}>
           <button className={style.button}>New Collection</button>
-          <div className={style.links}>
-            <ul className={style.list}>
-              <li className={style.item}>
-                <NavLink
-                  className={`${style.itemText} ${
-                    location.pathname === "/" ? style.itemTextActive : ""
-                  }`}
-                  to="/"
-                >
-                  All Collections
-                </NavLink>
-              </li>
-              <li className={style.item}>
-                <NavLink
-                  className={`${style.itemText} ${
-                    location.pathname === "/artists" ? style.itemTextActive : ""
-                  }`}
-                  to="/artists"
-                >
-                  Artists
-                </NavLink>
-              </li>
-              {loggedIn === true ? (
-                <>
-                  <li className={style.item}>
-                    <NavLink
-                      className={`${style.itemText} ${
-                        location.pathname === "/my-collections"
-                          ? style.itemTextActive
-                          : ""
-                      }`}
-                      to="/my-collections"
-                    >
-                      My Collections
-                    </NavLink>
-                  </li>
-                  <li className={style.item}>
-                    <NavLink
-                      className={`${style.itemText} ${
-                        location.pathname === "/upload-song"
-                          ? style.itemTextActive
-                          : ""
-                      }`}
-                      to="/upload-song"
-                    >
-                      Upload Song
-                    </NavLink>
-                  </li>
-                </>
-              ) : (
-                <></>
-              )}
-            </ul>
-          </div>
+
+          <ul className={style.list}>
+            {navItem("/", "All Collections")}
+            {navItem("/artists", "Artists")}
+            {isLoggedIn && navItem("/my-playlist", "My Playlist")}
+            {isLoggedIn && navItem("/upload-song", "Upload Song")}
+          </ul>
         </div>
+
         <div className={style.searchWrapper}>
           <div className={style.search}>
             <input

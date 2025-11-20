@@ -18,7 +18,7 @@ export const allSongsSlice = createSlice({
     });
     builder.addCase(getAllSongs.fulfilled, (state, action) => {
       state.status = "succeeded";
-      state.allSongsData = action.payload;
+      state.allSongs = action.payload;
     });
     builder.addCase(getAllSongs.rejected, (state, action) => {
       state.status = "failed";

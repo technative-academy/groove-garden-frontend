@@ -32,14 +32,12 @@ const getAccessToken = () => {
 };
 
 const refreshAccessToken = async () => {
-  const response = await apiService("auth/refresh-token", {
+  const response = await apiService("api/auth/refresh-token", {
     method: "POST",
   });
-
   if (response.accessToken) {
     sessionStorage.setItem("accessToken", response.accessToken);
   }
-
   return response.accessToken;
 };
 
