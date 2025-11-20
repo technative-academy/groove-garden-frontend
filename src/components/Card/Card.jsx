@@ -1,16 +1,51 @@
 import style from "./Card.module.css";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import authService from "../services/authService";
 
 function Card({ song }) {
+  const [songId, setSongId] = useState("");
+
+  const dispatch = useDispatch();
+  let currentUrl = useLocation().pathname;
+
+  const isLoggedIn = authService.isLoggedIn();
+
   const formatDate = (date) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(date).toLocaleDateString(undefined, options);
   };
+
+  //Get all my playlists
+  const getAllPlaylists = async () => {
+    console.log("button pressed");
+  };
+
+  useEffect(() => {
+    // dispatch();
+    setSongId(song.song_id);
+  }, [setSongId, song.song_id]);
+
+  const addToPlaylist = (id) => {
+    console.log(id);
+  };
+
   return (
     <>
-      <div className={style.card}>
+      <div className={style.card} id={song.id}>
         <h1 className={style.cardName}>{song.song_name}</h1>
+        {isLoggedIn && currentUrl === "/add-my-collections" && (
+          <button
+            onClick={() => {
+              addToPlaylist({ songId });
+            }}
+          >
+            Add to Collection
+          </button>
+        )}
         <ul className={style.listContainer}>
           <li className={style.listItem}>
             <p className={style.text}>
