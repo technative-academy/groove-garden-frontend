@@ -5,11 +5,11 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 function Home() {
-  const allSongs = useSelector((state) => state.allSongs.allSongs);
+  const songs = useSelector((state) => state.song.song);
   return (
     <div className={style.container}>
-      {allSongs?.map((song) => {
-        return <Card key={song.id} song={song} />;
+      {songs?.map((song, index) => {
+        return <Card key={index} song={song} />;
       })}
     </div>
   );

@@ -17,10 +17,7 @@ function Header() {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  // const isLoginModalOpen = useSelector((state) => state.login.active);
-
   const isLoginModalOpen = useSelector((state) => state.ui.loginActive);
-  // console.log(isLoginModalOpen);
 
   const isLoggedIn = authService.isLoggedIn();
 

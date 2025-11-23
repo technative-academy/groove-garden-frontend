@@ -2,11 +2,15 @@ import style from "./Card.module.css";
 
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import authService from "../services/authService";
+import {
+  addSongToMyPlaylist,
+  getAllSongsInPlaylist,
+} from "../../redux/playlist";
 
-function Card({ song }) {
+function Card({ song, deleteSong }) {
   const [songId, setSongId] = useState("");
 
   const dispatch = useDispatch();
@@ -14,36 +18,35 @@ function Card({ song }) {
 
   const isLoggedIn = authService.isLoggedIn();
 
+  const playlist_id = useSelector((state) => state.playlist.myPlaylistById?.id);
+
   const formatDate = (date) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(date).toLocaleDateString(undefined, options);
   };
 
-  //Get all my playlists
-  const getAllPlaylists = async () => {
-    console.log("button pressed");
+  const addSongToPlaylist = async (songId) => {
+    const result = await dispatch(addSongToMyPlaylist({ playlist_id, songId }));
+    if (result.meta.requestStatus === "fulfilled") {
+      dispatch(getAllSongsInPlaylist(playlist_id));
+    }
   };
 
   useEffect(() => {
-    // dispatch();
     setSongId(song.song_id);
-  }, [setSongId, song.song_id]);
-
-  const addToPlaylist = (id) => {
-    console.log(id);
-  };
+  }, [song.song_id]);
 
   return (
     <>
       <div className={style.card} id={song.id}>
         <h1 className={style.cardName}>{song.song_name}</h1>
-        {isLoggedIn && currentUrl === "/add-my-collections" && (
+        {isLoggedIn && currentUrl === "/my-playlist-by-id/add-song" && (
           <button
             onClick={() => {
-              addToPlaylist({ songId });
+              addSongToPlaylist(songId);
             }}
           >
-            Add to Collection
+            Add to Playlist
           </button>
         )}
         <ul className={style.listContainer}>
@@ -72,6 +75,15 @@ function Card({ song }) {
             </p>
           </li>
         </ul>
+        {isLoggedIn && currentUrl === "/my-playlist-by-id" && (
+          <button
+            onClick={() => {
+              deleteSong(playlist_id, songId);
+            }}
+          >
+            Remove from Playlist
+          </button>
+        )}
       </div>
     </>
   );

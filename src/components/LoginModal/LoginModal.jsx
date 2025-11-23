@@ -11,9 +11,6 @@ import closeButton from "../../assets/icons/close.svg";
 function LoginModal() {
   const dispatch = useDispatch();
 
-  const userState = useSelector((state) => state.user);
-  console.log(userState);
-
   const [inputValue, setInputValue] = useState({
     email: "",
     password: "",

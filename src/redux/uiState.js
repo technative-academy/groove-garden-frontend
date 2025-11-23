@@ -5,6 +5,7 @@ const uiSlice = createSlice({
   initialState: {
     loginActive: false,
     editActive: false,
+    createActive: false,
   },
   reducers: {
     loginToggleActive: (state) => {
@@ -13,8 +14,12 @@ const uiSlice = createSlice({
     editToggleActive: (state) => {
       state.editActive = !state.editActive;
     },
+    createToggleActive: (state) => {
+      state.createActive = !state.createActive;
+    },
   },
 });
 
-export const { loginToggleActive, editToggleActive } = uiSlice.actions;
+export const { loginToggleActive, editToggleActive, createToggleActive } =
+  uiSlice.actions;
 export default uiSlice.reducer;

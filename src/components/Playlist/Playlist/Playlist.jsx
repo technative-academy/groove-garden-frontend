@@ -1,30 +1,47 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Edit from "../Edit/Edit";
+import Create from "../Create/Create";
+import apiService from "../../services/apiService";
 
 import authService from "../../services/authService";
-import { getMyPlaylist, editMyPlaylist } from "../../../redux/playlist";
-import { editToggleActive } from "../../../redux/uiState";
+import {
+  getMyPlaylist,
+  deleteMyPlaylist,
+  createNewPlaylist,
+  getMyPlaylistById,
+} from "../../../redux/playlist";
+import { createToggleActive, editToggleActive } from "../../../redux/uiState";
 
 export default function MyPlaylist() {
   const dispatch = useDispatch();
   const isLoggedIn = authService.isLoggedIn();
   const myPlaylists = useSelector((state) => state.playlist.myPlaylist);
   const isEditModalOpen = useSelector((state) => state.ui.editActive);
+  const isCreateModalOpen = useSelector((state) => state.ui.createActive);
+
+  const [selectedPlaylistId, setSelectedPlaylistId] = useState(null);
 
   useEffect(() => {
     dispatch(getMyPlaylist());
   }, [dispatch]);
 
-  const editPlaylist = (id) => {
-    console.log(id);
-    dispatch(editMyPlaylist(id));
+  const handleSubmit = async (e, inputValue) => {
+    e.preventDefault();
+    await dispatch(createNewPlaylist(inputValue));
+    dispatch(createToggleActive());
+    await dispatch(getMyPlaylist());
   };
 
-  const deletePlaylist = (id) => {
-    console.log(id);
+  const deletePlaylist = async (id) => {
+    await dispatch(deleteMyPlaylist(id));
+    await dispatch(getMyPlaylist());
+  };
+
+  const getPlaylistById = async (id) => {
+    await dispatch(getMyPlaylistById(id));
   };
 
   return (
@@ -32,34 +49,55 @@ export default function MyPlaylist() {
       {isLoggedIn ? (
         <>
           <div>
+            {isCreateModalOpen && <Create handleSubmit={handleSubmit} />}
+            {isEditModalOpen && selectedPlaylistId && (
+              <Edit playlistId={selectedPlaylistId} />
+            )}
             <h1>My Playlist</h1>
-            <button>Create a Playlist</button>
+            <button
+              onClick={() => {
+                dispatch(createToggleActive());
+              }}
+            >
+              Create a Playlist
+            </button>
           </div>
           <div>
             {myPlaylists.map((playlist, index) => {
               return (
-                <>
-                  {isEditModalOpen && <Edit playlistId={playlist.id} />}
-                  <div key={index}>
-                    <div>
-                      <h1>{playlist.title}</h1>
-                      <p>{playlist.description}</p>
-                    </div>
-                    <div>
-                      <button onClick={() => dispatch(editToggleActive())}>
-                        Edit
-                      </button>
+                <div key={index}>
+                  <div>
+                    <h1>{playlist.title}</h1>
+                    <p>{playlist.description}</p>
+                  </div>
+                  <div>
+                    <NavLink to="/my-playlist-by-id">
                       <button
-                        id={playlist.id}
                         onClick={() => {
-                          deletePlaylist(playlist.id);
+                          getPlaylistById(playlist.id);
                         }}
                       >
-                        Delete
+                        Open Playlist
                       </button>
-                    </div>
+                    </NavLink>
+                    <button
+                      onClick={() => {
+                        setSelectedPlaylistId(playlist.id);
+                        dispatch(editToggleActive());
+                      }}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      id={playlist.id}
+                      onClick={() => {
+                        deletePlaylist(playlist.id);
+                      }}
+                    >
+                      Delete
+                    </button>
                   </div>
-                </>
+                </div>
               );
             })}
           </div>

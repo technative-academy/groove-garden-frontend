@@ -5,44 +5,39 @@ import { NavLink } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
 import { editToggleActive } from "../../../redux/uiState";
-import { getMyPlaylist, editMyPlaylist } from "../../../redux/playlist";
+import {
+  getMyPlaylist,
+  getMyPlaylistById,
+  editMyPlaylist,
+} from "../../../redux/playlist";
 
 import closeButton from "../../../assets/icons/close.svg";
 import apiService from "../../services/apiService";
 
 export default function Edit({ playlistId }) {
   const [playlist, setPlaylist] = useState({
-    created_by_user_id: "",
     title: "",
     description: "",
   });
   const [inputValue, setInputValue] = useState({
-    created_by_user_id: "",
     title: "",
     description: "",
   });
   const dispatch = useDispatch();
 
-  const getMyPlaylist = async (id) => {
-    const response = await apiService(`api/playlists/${id}`);
-    const data = {
-      created_by_user_id: response.created_by_user_id,
-      //   id: response.id,
-      title: response.title,
-      description: response.description,
-    };
-    setInputValue(data);
-    setPlaylist(data);
-  };
-
   useEffect(() => {
-    getMyPlaylist(playlistId);
-  }, [playlistId]);
+    const getMyPlaylist = async () => {
+      const response = await dispatch(getMyPlaylistById(playlistId));
+      const data = {
+        title: response.payload.title,
+        description: response.payload.description,
+      };
+      setInputValue(data);
+      setPlaylist(data);
+    };
 
-  //   console.log(playlist);
-
-  //   const userState = useSelector((state) => state.user);
-  //   console.log(userState);
+    getMyPlaylist();
+  }, [playlistId, dispatch]);
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -67,7 +62,8 @@ export default function Edit({ playlistId }) {
           description: inputValue.description,
         })
       );
-
+      dispatch(getMyPlaylist());
+      dispatch(editToggleActive());
       if (result.meta.requestStatus === "fulfilled") {
         // Update local playlist state so inputs reflect latest
         setPlaylist({ ...playlist, ...inputValue });
@@ -98,16 +94,6 @@ export default function Edit({ playlistId }) {
           action=""
           onSubmit={(e) => handleSubmit(e)}
         >
-          <label className={style.label}>Created by User:</label>
-          <input
-            className={style.input}
-            type="text"
-            id="createdByUserId"
-            name="created_by_user_id"
-            value={inputValue.created_by_user_id}
-            // onChange={handleInput}
-            readOnly
-          />
           <label className={style.label}>Title:</label>
           <input
             className={style.input}
@@ -128,21 +114,9 @@ export default function Edit({ playlistId }) {
             required
           />
           <button className={style.loginSubmit} type="submit">
-            Login
+            Edit
           </button>
         </form>
-        <div className={style.register}>
-          <p className={style.registerText}>Don't have an account?</p>
-          <NavLink
-            to="/register"
-            className={style.registerButton}
-            onClick={() => {
-              dispatch(editToggleActive());
-            }}
-          >
-            Register Now
-          </NavLink>
-        </div>
       </div>
     </>
   );
