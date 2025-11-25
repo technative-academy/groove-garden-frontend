@@ -1,0 +1,29 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 1rem 2rem;
+}
+.headerLink {
+  width: 10%;
+}
+.headerImage {
+  width: 50%;
+}
+.heading {
+}
+.addSongContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin: 1rem 2rem;
+}
+
+.button {
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  outline: none;
+  border: none;
+}
+.button:hover {
+  outline: 2px solid var(--text-accent-color);
+}

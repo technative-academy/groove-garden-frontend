@@ -1,15 +1,23 @@
 import style from "./Home.module.css";
 import Card from "../Card/Card";
 
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { getSong } from "../../redux/song";
 
 function Home() {
-  const allSongs = useSelector((state) => state.allSongs.allSongs);
+  const dispatch = useDispatch();
+  const songs = useSelector((state) => state.song.song);
+
+  useEffect(() => {
+    dispatch(getSong());
+  }, []);
+
   return (
     <div className={style.container}>
-      {allSongs?.map((song) => {
-        return <Card key={song.id} song={song} />;
+      {songs?.map((song, index) => {
+        return <Card key={index} song={song} />;
       })}
     </div>
   );

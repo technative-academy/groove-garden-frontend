@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { loadState, saveState } from "./localStorage";
 
-import allSongsReducer from "./allSongs";
+import songReducer from "./song";
 import uiStateReducer from "./uiState";
 import userReducer from "./user";
 import playlistReducer from "./playlist";
@@ -10,7 +10,7 @@ const persistedState = loadState();
 
 export const store = configureStore({
   reducer: {
-    allSongs: allSongsReducer,
+    song: songReducer,
     ui: uiStateReducer,
     user: userReducer,
     playlist: playlistReducer,
@@ -21,5 +21,6 @@ export const store = configureStore({
 store.subscribe(() => {
   saveState({
     user: store.getState().user,
+    playlist: store.getState().playlist,
   });
 });

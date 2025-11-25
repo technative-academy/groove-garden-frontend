@@ -1,8 +1,8 @@
 import style from "./LoginModal.module.css";
 
 import React, { useState } from "react";
-import { NavLink } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
+import { NavLink, Navigate } from "react-router";
+import { useDispatch } from "react-redux";
 import { loginToggleActive } from "../../redux/uiState";
 import { login } from "../../redux/user";
 
@@ -10,9 +10,6 @@ import closeButton from "../../assets/icons/close.svg";
 
 function LoginModal() {
   const dispatch = useDispatch();
-
-  const userState = useSelector((state) => state.user);
-  console.log(userState);
 
   const [inputValue, setInputValue] = useState({
     email: "",

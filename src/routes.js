@@ -6,6 +6,8 @@ import Register from "./components/Register/Register";
 import Login from "./components/Login/Login";
 import Playlist from "./components/Playlist/Playlist/Playlist";
 import AddPlaylist from "./components/Playlist/Add/Add";
+import PlaylistById from "./components/Playlist/PlaylistById/PlaylistById";
+import Add from "./components/Playlist/Add/Add";
 
 const routes = [
   {
@@ -17,24 +19,29 @@ const routes = [
         element: <Home />,
       },
       {
-        path: "/upload-song",
+        path: "upload-song",
         element: <UploadSong />,
       },
       {
-        path: "/register",
+        path: "register",
         element: <Register />,
       },
       {
-        path: "/login",
+        path: "login",
         element: <Login />,
       },
       {
-        path: "/my-playlist",
+        path: "my-playlist",
         element: <Playlist />,
       },
       {
-        path: "/add-playlist",
+        path: "add-playlist",
         element: <AddPlaylist />,
+      },
+      {
+        path: "my-playlist-by-id",
+        element: <PlaylistById />,
+        children: [{ path: "add-song", element: <Add /> }],
       },
     ],
   },
