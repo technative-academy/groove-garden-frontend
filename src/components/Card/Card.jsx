@@ -9,8 +9,9 @@ import {
   addSongToMyPlaylist,
   getAllSongsInPlaylist,
 } from "../../redux/playlist";
+import { getSong, deleteMySong } from "../../redux/song";
 
-function Card({ song, deleteSong }) {
+function Card({ song }) {
   const [songId, setSongId] = useState("");
 
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ function Card({ song, deleteSong }) {
 
   const isLoggedIn = authService.isLoggedIn();
 
+  const loggedInUser = useSelector((state) => state.user.user);
   const playlist_id = useSelector((state) => state.playlist.myPlaylistById?.id);
 
   const formatDate = (date) => {
@@ -32,6 +34,11 @@ function Card({ song, deleteSong }) {
     }
   };
 
+  const deleteSong = async () => {
+    await dispatch(deleteMySong(songId));
+    await dispatch(getSong());
+  };
+
   useEffect(() => {
     setSongId(song.song_id);
   }, [song.song_id]);
@@ -40,15 +47,6 @@ function Card({ song, deleteSong }) {
     <>
       <div className={style.card} id={song.id}>
         <h1 className={style.cardName}>{song.song_name}</h1>
-        {isLoggedIn && currentUrl === "/my-playlist-by-id/add-song" && (
-          <button
-            onClick={() => {
-              addSongToPlaylist(songId);
-            }}
-          >
-            Add to Playlist
-          </button>
-        )}
         <ul className={style.listContainer}>
           <li className={style.listItem}>
             <p className={style.text}>
@@ -75,6 +73,24 @@ function Card({ song, deleteSong }) {
             </p>
           </li>
         </ul>
+        {isLoggedIn && loggedInUser.id === song.posted_by_user_id ? (
+          <button
+            onClick={() => {
+              deleteSong();
+            }}
+          >
+            Remove Song
+          </button>
+        ) : null}
+        {isLoggedIn && currentUrl === "/my-playlist-by-id/add-song" && (
+          <button
+            onClick={() => {
+              addSongToPlaylist(songId);
+            }}
+          >
+            Add to Playlist
+          </button>
+        )}
         {isLoggedIn && currentUrl === "/my-playlist-by-id" && (
           <button
             onClick={() => {

@@ -35,6 +35,22 @@ export const uploadSong = createAsyncThunk(
   }
 );
 
+export const deleteMySong = createAsyncThunk(
+  "song/deleteSong",
+  async (songId, { rejectWithValue }) => {
+    try {
+      const response = await apiService(`api/songs/${songId}`, {
+        method: "DELETE",
+      });
+      return response;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.error || "Failed to delete song"
+      );
+    }
+  }
+);
+
 const initialState = {
   status: "idle",
   error: null,

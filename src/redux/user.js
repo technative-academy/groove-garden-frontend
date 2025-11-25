@@ -2,14 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import authService from "../components/services/authService";
 
-const initialState = {
-  active: false,
-  isLoggedIn: false,
-  user: "",
-  status: "idle",
-  error: null,
-};
-
 export const login = createAsyncThunk(
   "auth/login",
   async ({ email, password }, { rejectWithValue }) => {
@@ -24,6 +16,7 @@ export const login = createAsyncThunk(
 
 export const logout = createAsyncThunk("auth/logout", async () => {
   await authService.logout();
+  return { ...initialState };
 });
 
 export const register = createAsyncThunk(
@@ -37,6 +30,14 @@ export const register = createAsyncThunk(
     }
   }
 );
+
+const initialState = {
+  active: false,
+  isLoggedIn: false,
+  user: null,
+  status: "idle",
+  error: null,
+};
 
 const user = createSlice({
   name: "user",

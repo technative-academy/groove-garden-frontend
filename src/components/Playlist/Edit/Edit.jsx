@@ -1,9 +1,8 @@
 import style from "./Edit.module.css";
 
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
-
+import { Navigate } from "react-router";
+import { useDispatch } from "react-redux";
 import { editToggleActive } from "../../../redux/uiState";
 import {
   getMyPlaylist,
@@ -12,9 +11,10 @@ import {
 } from "../../../redux/playlist";
 
 import closeButton from "../../../assets/icons/close.svg";
-import apiService from "../../services/apiService";
+import authService from "../../services/authService";
 
 export default function Edit({ playlistId }) {
+  const isLoggedIn = authService.isLoggedIn();
   const [playlist, setPlaylist] = useState({
     title: "",
     description: "",
@@ -26,7 +26,7 @@ export default function Edit({ playlistId }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const getMyPlaylist = async () => {
+    const getPlaylist = async () => {
       const response = await dispatch(getMyPlaylistById(playlistId));
       const data = {
         title: response.payload.title,
@@ -36,7 +36,7 @@ export default function Edit({ playlistId }) {
       setPlaylist(data);
     };
 
-    getMyPlaylist();
+    getPlaylist();
   }, [playlistId, dispatch]);
 
   const handleInput = (e) => {
@@ -73,51 +73,57 @@ export default function Edit({ playlistId }) {
 
   return (
     <>
-      <div className={style.container}>
-        <div className={style.heading}>
-          <h1 className={style.title}>Edit Playlist</h1>
-          <div
-            className={style.closeContainer}
-            onClick={() => {
-              dispatch(editToggleActive());
-            }}
-          >
-            <img
-              className={style.closeButton}
-              src={closeButton}
-              alt="button to close the login section"
-            />
-          </div>
-        </div>
-        <form
-          className={style.form}
-          action=""
-          onSubmit={(e) => handleSubmit(e)}
-        >
-          <label className={style.label}>Title:</label>
-          <input
-            className={style.input}
-            type="text"
-            name="title"
-            value={inputValue.title}
-            onChange={handleInput}
-            required
-          />
+      {isLoggedIn ? (
+        <>
+          <div className={style.container}>
+            <div className={style.heading}>
+              <h1 className={style.title}>Edit Playlist</h1>
+              <div
+                className={style.closeContainer}
+                onClick={() => {
+                  dispatch(editToggleActive());
+                }}
+              >
+                <img
+                  className={style.closeButton}
+                  src={closeButton}
+                  alt="button to close the login section"
+                />
+              </div>
+            </div>
+            <form
+              className={style.form}
+              action=""
+              onSubmit={(e) => handleSubmit(e)}
+            >
+              <label className={style.label}>Title:</label>
+              <input
+                className={style.input}
+                type="text"
+                name="title"
+                value={inputValue.title}
+                onChange={handleInput}
+                required
+              />
 
-          <label className={style.label}>Description:</label>
-          <input
-            className={style.input}
-            type="text"
-            name="description"
-            value={inputValue.description}
-            onChange={handleInput}
-            required
-          />
-          <button className={style.loginSubmit} type="submit">
-            Edit
-          </button>
-        </form>
-      </div>
+              <label className={style.label}>Description:</label>
+              <input
+                className={style.input}
+                type="text"
+                name="description"
+                value={inputValue.description}
+                onChange={handleInput}
+                required
+              />
+              <button className={style.loginSubmit} type="submit">
+                Edit
+              </button>
+            </form>
+          </div>
+        </>
+      ) : (
+        <Navigate to="/login" />
+      )}
     </>
   );
 }

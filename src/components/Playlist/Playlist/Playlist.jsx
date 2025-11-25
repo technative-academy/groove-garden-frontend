@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Edit from "../Edit/Edit";
 import Create from "../Create/Create";
-import apiService from "../../services/apiService";
 
 import authService from "../../services/authService";
 import {
@@ -31,7 +30,7 @@ export default function MyPlaylist() {
   const handleSubmit = async (e, inputValue) => {
     e.preventDefault();
     await dispatch(createNewPlaylist(inputValue));
-    dispatch(createToggleActive());
+    await dispatch(createToggleActive());
     await dispatch(getMyPlaylist());
   };
 

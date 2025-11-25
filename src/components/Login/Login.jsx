@@ -2,7 +2,7 @@ import style from "./Login.module.css";
 
 import React, { useState } from "react";
 import { NavLink } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginToggleActive } from "../../redux/uiState";
 import { login } from "../../redux/user";
 
@@ -25,7 +25,7 @@ function LoginModal() {
     if (inputValue.email.length > 0 && inputValue.password.length > 3) {
       const result = await dispatch(login(inputValue));
       if (result.meta.requestStatus === "fulfilled") {
-        dispatch(loginToggleActive());
+        await dispatch(loginToggleActive());
       }
     }
   };

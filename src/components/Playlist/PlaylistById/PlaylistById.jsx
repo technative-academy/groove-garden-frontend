@@ -1,16 +1,22 @@
+import style from "./PlaylistById.module.css";
+
 import React, { useEffect } from "react";
-import { NavLink, Outlet } from "react-router";
+import { Navigate, NavLink, Outlet } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   deleteSongInPlaylist,
   getAllSongsInPlaylist,
-  addSongToMyPlaylist,
 } from "../../../redux/playlist";
+import authService from "../../services/authService";
 
 import Card from "../../Card/Card";
 
+import back from "../../../assets/icons/back.svg";
+
 export default function PlaylistById() {
   const dispatch = useDispatch();
+  const isLoggedIn = authService.isLoggedIn();
 
   const playlistId = useSelector((state) => state.playlist.myPlaylistById);
   const songsInPlaylist = useSelector(
@@ -26,26 +32,35 @@ export default function PlaylistById() {
       deleteSongInPlaylist({ playlistId: playlist_id, songId: song })
     );
     if (result.meta.requestStatus === "fulfilled") {
-      dispatch(getAllSongsInPlaylist(playlistId.id));
+      await dispatch(getAllSongsInPlaylist(playlistId.id));
     }
   };
 
   return (
     <>
-      <Outlet />
-      <div>
-        <h1>Playlist: {playlistId.title}</h1>
-      </div>
-      <div>
-        <NavLink to="add-song">
-          <button>Add Song</button>
-        </NavLink>
-      </div>
-      <div>
-        {songsInPlaylist?.map((song, index) => {
-          return <Card key={index} song={song} deleteSong={deleteSong} />;
-        })}
-      </div>
+      {isLoggedIn ? (
+        <>
+          <Outlet />
+          <div className={style.header}>
+            <NavLink className={style.headerLink} to="/my-playlist">
+              <img className={style.headerImage} src={back} alt="" />
+            </NavLink>
+            <h1 className={style.heading}>Playlist: {playlistId.title}</h1>
+          </div>
+          <div className={style.addSongContainer}>
+            <NavLink className={style.buttonLink} to="add-song">
+              <button className={style.button}>Add Song</button>
+            </NavLink>
+          </div>
+          <div>
+            {songsInPlaylist.map((song, index) => {
+              return <Card key={index} song={song} deleteSong={deleteSong} />;
+            })}
+          </div>
+        </>
+      ) : (
+        <Navigate to="/login" />
+      )}
     </>
   );
 }
