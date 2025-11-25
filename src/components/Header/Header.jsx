@@ -18,7 +18,6 @@ function Header() {
   const dispatch = useDispatch();
 
   const isLoginModalOpen = useSelector((state) => state.ui.loginActive);
-
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
   const navItem = (path, label) => (

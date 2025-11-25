@@ -14,6 +14,7 @@ import closeButton from "../../../assets/icons/close.svg";
 import authService from "../../services/authService";
 
 export default function Edit({ playlistId }) {
+  const dispatch = useDispatch();
   const isLoggedIn = authService.isLoggedIn();
   const [playlist, setPlaylist] = useState({
     title: "",
@@ -23,7 +24,6 @@ export default function Edit({ playlistId }) {
     title: "",
     description: "",
   });
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const getPlaylist = async () => {
@@ -49,8 +49,6 @@ export default function Edit({ playlistId }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Skip if nothing changed
     if (
       inputValue.title !== playlist.title ||
       inputValue.description !== playlist.description
@@ -65,7 +63,6 @@ export default function Edit({ playlistId }) {
       dispatch(getMyPlaylist());
       dispatch(editToggleActive());
       if (result.meta.requestStatus === "fulfilled") {
-        // Update local playlist state so inputs reflect latest
         setPlaylist({ ...playlist, ...inputValue });
       }
     }

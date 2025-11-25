@@ -12,7 +12,7 @@ function Home() {
 
   useEffect(() => {
     dispatch(getSong());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className={style.container}>

@@ -1,11 +1,8 @@
 import style from "./Register.module.css";
 
 import React, { useState, useEffect } from "react";
-import { Navigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { register, clearError } from "../../redux/user";
-
-import authService from "../services/authService";
 
 function Register() {
   const dispatch = useDispatch();

@@ -11,7 +11,9 @@ function App() {
 
   useEffect(() => {
     dispatch(getSong());
-  }, [dispatch]);
+    console.log("Effect");
+  });
+
   return (
     <>
       <Header />
