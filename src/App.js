@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 
 import Header from "./components/Header/Header";
 import MainContent from "./components/MainContent/MainContent";
+import Search from "./components/Search/Search";
 
 import { getSong } from "./redux/song";
 
