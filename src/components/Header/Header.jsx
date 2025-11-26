@@ -11,8 +11,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginToggleActive } from "../../redux/uiState";
 import { logout } from "../../redux/user";
 import LoginModal from "../LoginModal/LoginModal";
+import Search from "../Search/Search.jsx"
 
-function Header() {
+
+function Header({ setSearchTerm }) {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -88,15 +90,8 @@ function Header() {
             {isLoggedIn && navItem("/upload-song", "Upload Song")}
           </ul>
         </div>
-        <div className={style.searchWrapper}>
-          <div className={style.search}>
-            <input
-              className={style.input}
-              type="text"
-              placeholder="Search Collection"
-            />
-            <img className={style.searchIcon} src={search_icon} alt="" />
-          </div>
+          <div className={style.searchWrapper}>
+          <Search setSearchTerm={setSearchTerm}/> 
         </div>
       </div>
     </>

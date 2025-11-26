@@ -2,10 +2,10 @@ import React from "react";
 
 import { Outlet } from "react-router-dom";
 
-function MainContent() {
+function MainContent({ searchTerm }) {
   return (
     <div>
-      <Outlet />
+      <Outlet context={{ searchTerm }}/>
     </div>
   );
 }
