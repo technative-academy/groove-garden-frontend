@@ -11,14 +11,15 @@ import {
 } from "../../redux/playlist";
 import { getSong, deleteMySong } from "../../redux/song";
 
-function Card({ song }) {
+import deleteIcon from "../../assets/icons/delete.svg";
+import addIcon from "../../assets/icons/add.svg";
+
+function Card({ song, playlistDeleteSong }) {
+  const dispatch = useDispatch();
   const [songId, setSongId] = useState("");
 
-  const dispatch = useDispatch();
   let currentUrl = useLocation().pathname;
-
   const isLoggedIn = authService.isLoggedIn();
-
   const loggedInUser = useSelector((state) => state.user.user);
   const playlist_id = useSelector((state) => state.playlist.myPlaylistById?.id);
 
@@ -45,8 +46,44 @@ function Card({ song }) {
 
   return (
     <>
-      <div className={style.card} id={song.id}>
-        <h1 className={style.cardName}>{song.song_name}</h1>
+      <div className={style.container} id={song.id}>
+        <div className={style.headingContainer}>
+          <h1 className={style.cardName}>{song.song_name}</h1>
+          <div className={style.imageContainer}>
+            {isLoggedIn &&
+            loggedInUser.id === song.posted_by_user_id &&
+            currentUrl !== "/my-playlist-by-id/add-song" ? (
+              <img
+                className={style.icon}
+                onClick={() => {
+                  deleteSong();
+                }}
+                alt="delete icon"
+                src={deleteIcon}
+              />
+            ) : null}
+            {isLoggedIn && currentUrl === "/my-playlist-by-id/add-song" && (
+              <img
+                className={style.icon}
+                onClick={() => {
+                  addSongToPlaylist(songId);
+                }}
+                alt="Add to playlist icon"
+                src={addIcon}
+              />
+            )}
+            {isLoggedIn && currentUrl === "/my-playlist-by-id" && (
+              <img
+                className={style.icon}
+                onClick={() => {
+                  playlistDeleteSong(playlist_id, songId);
+                }}
+                alt="delete icon"
+                src={deleteIcon}
+              />
+            )}
+          </div>
+        </div>
         <ul className={style.listContainer}>
           <li className={style.listItem}>
             <p className={style.text}>
@@ -73,33 +110,6 @@ function Card({ song }) {
             </p>
           </li>
         </ul>
-        {isLoggedIn && loggedInUser.id === song.posted_by_user_id ? (
-          <button
-            onClick={() => {
-              deleteSong();
-            }}
-          >
-            Remove Song
-          </button>
-        ) : null}
-        {isLoggedIn && currentUrl === "/my-playlist-by-id/add-song" && (
-          <button
-            onClick={() => {
-              addSongToPlaylist(songId);
-            }}
-          >
-            Add to Playlist
-          </button>
-        )}
-        {isLoggedIn && currentUrl === "/my-playlist-by-id" && (
-          <button
-            onClick={() => {
-              deleteSong(playlist_id, songId);
-            }}
-          >
-            Remove from Playlist
-          </button>
-        )}
       </div>
     </>
   );

@@ -11,7 +11,10 @@ function Home() {
   const { searchTerm } = useOutletContext() || { searchTerm: '' }; // Add default value
 
   useEffect(() => {
-    dispatch(getSong());
+    const fetchSongs = async () => {
+      await dispatch(getSong());
+    };
+    fetchSongs();
   }, [dispatch]);
 
   // Filter songs based on search term
