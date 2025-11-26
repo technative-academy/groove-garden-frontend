@@ -60,8 +60,8 @@ export default function Edit({ playlistId }) {
           description: inputValue.description,
         })
       );
-      dispatch(getMyPlaylist());
-      dispatch(editToggleActive());
+      await dispatch(getMyPlaylist());
+      await dispatch(editToggleActive());
       if (result.meta.requestStatus === "fulfilled") {
         setPlaylist({ ...playlist, ...inputValue });
       }

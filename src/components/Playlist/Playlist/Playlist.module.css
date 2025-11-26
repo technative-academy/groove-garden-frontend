@@ -1,0 +1,71 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 2rem;
+}
+
+.header {
+  margin: 0 0 2rem 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.heading {
+}
+.card {
+  background-color: var(--background-secondary-color);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  /* margin: 0 2rem; */
+  border-radius: 8px;
+  padding: 1rem;
+}
+.card:nth-child(even) {
+  margin: 1.5rem 0;
+}
+.cardHeader {
+  margin: 0 0 1.5rem 0;
+}
+.title {
+  font-size: 2rem;
+  color: var(--text-accent-color);
+}
+.description {
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+.functions {
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-between; */
+}
+.buttonContainer {
+  width: 100%;
+}
+.button {
+  padding: 0 1rem;
+  border-radius: 8px;
+  outline: none;
+  border: none;
+}
+
+.button:hover {
+  outline: 2px solid var(--text-accent-color);
+}
+
+.iconContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.icon {
+  width: 20%;
+  padding: 0 0.5rem;
+}
+.icon:hover {
+  cursor: pointer;
+}
+
+.link {
+  text-decoration: none;
+  /* list-style: none; */
+}

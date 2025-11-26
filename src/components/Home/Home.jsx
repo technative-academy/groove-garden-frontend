@@ -11,7 +11,10 @@ function Home() {
   const songs = useSelector((state) => state.song.song);
 
   useEffect(() => {
-    dispatch(getSong());
+    const fetchSongs = async () => {
+      await dispatch(getSong());
+    };
+    fetchSongs();
   }, [dispatch]);
 
   return (
