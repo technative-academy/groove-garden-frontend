@@ -1,14 +1,13 @@
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "./components/Header/Header";
 import MainContent from "./components/MainContent/MainContent";
-import Search from "./components/Search/Search";
 
 import { getSong } from "./redux/song";
 
 function App() {
   const dispatch = useDispatch();
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     dispatch(getSong());
@@ -17,8 +16,8 @@ function App() {
 
   return (
     <>
-      <Header />
-      <MainContent />
+      <Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <MainContent searchTerm={searchTerm} />
     </>
   );
 }

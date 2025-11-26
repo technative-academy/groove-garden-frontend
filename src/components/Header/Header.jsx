@@ -13,7 +13,8 @@ import { logout } from "../../redux/user";
 import LoginModal from "../LoginModal/LoginModal";
 import Search from "../Search/Search.jsx"
 
-function Header() {
+
+function Header({ setSearchTerm }) {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -90,7 +91,7 @@ function Header() {
           </ul>
         </div>
           <div className={style.searchWrapper}>
-          <Search /> 
+          <Search setSearchTerm={setSearchTerm}/> 
         </div>
       </div>
     </>
