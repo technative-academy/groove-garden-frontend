@@ -27,7 +27,7 @@ export default function PlaylistById() {
     dispatch(getAllSongsInPlaylist(playlistId.id));
   }, [dispatch, playlistId.id]);
 
-  const deleteSong = async (playlist_id, song) => {
+  const playlistDeleteSong = async (playlist_id, song) => {
     const result = await dispatch(
       deleteSongInPlaylist({ playlistId: playlist_id, songId: song })
     );
@@ -54,7 +54,13 @@ export default function PlaylistById() {
           </div>
           <div>
             {songsInPlaylist.map((song, index) => {
-              return <Card key={index} song={song} deleteSong={deleteSong} />;
+              return (
+                <Card
+                  key={index}
+                  song={song}
+                  playlistDeleteSong={playlistDeleteSong}
+                />
+              );
             })}
           </div>
         </>

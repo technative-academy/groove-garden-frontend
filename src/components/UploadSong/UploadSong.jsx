@@ -32,6 +32,7 @@ function UploadSong() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(inputValue);
     dispatch(uploadSong(inputValue));
     setInputValue({
       songTitle: "",

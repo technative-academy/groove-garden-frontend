@@ -1,9 +1,14 @@
+import style from "./Playlist.module.css";
+
 import React, { useEffect, useState } from "react";
 import { Navigate, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Edit from "../Edit/Edit";
 import Create from "../Create/Create";
+
+import editIcon from "../../../assets/icons/edit.svg";
+import deleteIcon from "../../../assets/icons/delete.svg";
 
 import authService from "../../services/authService";
 import {
@@ -46,17 +51,18 @@ export default function MyPlaylist() {
   return (
     <>
       {isLoggedIn ? (
-        <>
-          <div>
+        <div className={style.container}>
+          <div className={style.header}>
             {isCreateModalOpen && <Create handleSubmit={handleSubmit} />}
             {isEditModalOpen && selectedPlaylistId && (
               <Edit playlistId={selectedPlaylistId} />
             )}
-            <h1>My Playlist</h1>
+            <h1 className={style.heading}>My Playlist</h1>
             <button
               onClick={() => {
                 dispatch(createToggleActive());
               }}
+              className={style.button}
             >
               Create a Playlist
             </button>
@@ -64,43 +70,51 @@ export default function MyPlaylist() {
           <div>
             {myPlaylists.map((playlist, index) => {
               return (
-                <div key={index}>
-                  <div>
-                    <h1>{playlist.title}</h1>
-                    <p>{playlist.description}</p>
+                <div className={style.card} key={index}>
+                  <div className={style.cardHeader}>
+                    <h1 className={style.title}>{playlist.title}</h1>
+                    <p className={style.description}>{playlist.description}</p>
                   </div>
-                  <div>
-                    <NavLink to="/my-playlist-by-id">
-                      <button
+                  <div className={style.functions}>
+                    <div className={style.buttonContainer}>
+                      <NavLink to="/my-playlist-by-id">
+                        <button
+                          onClick={() => {
+                            getPlaylistById(playlist.id);
+                          }}
+                          className={style.button}
+                        >
+                          Open Playlist
+                        </button>
+                      </NavLink>
+                    </div>
+                    <div className={style.iconContainer}>
+                      <img
                         onClick={() => {
-                          getPlaylistById(playlist.id);
+                          setSelectedPlaylistId(playlist.id);
+                          dispatch(editToggleActive());
                         }}
-                      >
-                        Open Playlist
-                      </button>
-                    </NavLink>
-                    <button
-                      onClick={() => {
-                        setSelectedPlaylistId(playlist.id);
-                        dispatch(editToggleActive());
-                      }}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      id={playlist.id}
-                      onClick={() => {
-                        deletePlaylist(playlist.id);
-                      }}
-                    >
-                      Delete
-                    </button>
+                        className={style.icon}
+                        alt="edit"
+                        src={editIcon}
+                      />
+
+                      <img
+                        onClick={() => {
+                          setSelectedPlaylistId(playlist.id);
+                          deletePlaylist(playlist.id);
+                        }}
+                        className={style.icon}
+                        alt="delete"
+                        src={deleteIcon}
+                      />
+                    </div>
                   </div>
                 </div>
               );
             })}
           </div>
-        </>
+        </div>
       ) : (
         <Navigate to="/login" />
       )}

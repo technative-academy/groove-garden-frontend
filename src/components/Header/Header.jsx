@@ -83,7 +83,7 @@ function Header() {
 
           <ul className={style.list}>
             {navItem("/", "All Collections")}
-            {navItem("/artists", "Artists")}
+            {/* {navItem("/artists", "Artists")} */}
             {isLoggedIn && navItem("/my-playlist", "My Playlist")}
             {isLoggedIn && navItem("/upload-song", "Upload Song")}
           </ul>
