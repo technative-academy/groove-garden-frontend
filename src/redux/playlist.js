@@ -7,7 +7,7 @@ export const getMyPlaylist = createAsyncThunk(
   async () => {
     const response = await apiService("api/playlists/my_playlists");
     return response;
-  }
+  },
 );
 
 //Get my playlist by ID
@@ -16,7 +16,7 @@ export const getMyPlaylistById = createAsyncThunk(
   async (id) => {
     const response = await apiService(`api/playlists/${id}`);
     return response;
-  }
+  },
 );
 
 //Create new playlists
@@ -29,7 +29,7 @@ export const createNewPlaylist = createAsyncThunk(
       body: JSON.stringify({ title, description }),
     });
     return response;
-  }
+  },
 );
 
 //Edit an already created Playlist
@@ -46,7 +46,7 @@ export const editMyPlaylist = createAsyncThunk(
       body: JSON.stringify(payload),
     });
     return response;
-  }
+  },
 );
 
 //Add song to a playlist
@@ -55,10 +55,10 @@ export const addSongToMyPlaylist = createAsyncThunk(
   async ({ playlist_id, songId }) => {
     const response = await apiService(
       `api/playlists/${playlist_id}/${songId}`,
-      { method: "POST", body: JSON.stringify({ playlist_id, songId }) }
+      { method: "POST", body: JSON.stringify({ playlist_id, songId }) },
     );
     return response;
-  }
+  },
 );
 
 //Delete a playlist
@@ -69,7 +69,7 @@ export const deleteMyPlaylist = createAsyncThunk(
       method: "DELETE",
     });
     return response;
-  }
+  },
 );
 
 //Get all songs in the selected playlist
@@ -78,7 +78,7 @@ export const getAllSongsInPlaylist = createAsyncThunk(
   async (id) => {
     const response = await apiService(`api/playlists/playlist_songs/${id}`);
     return response;
-  }
+  },
 );
 
 //DELETE song from playlist
@@ -90,7 +90,7 @@ export const deleteSongInPlaylist = createAsyncThunk(
       body: JSON.stringify({ playlistId, songId }),
     });
     return response;
-  }
+  },
 );
 
 const initialState = {
@@ -98,7 +98,7 @@ const initialState = {
   error: null,
   myPlaylist: [],
   myPlaylistById: "",
-  songsInPlaylist: "",
+  songsInPlaylist: [],
 };
 
 export const playlistSlice = createSlice({
